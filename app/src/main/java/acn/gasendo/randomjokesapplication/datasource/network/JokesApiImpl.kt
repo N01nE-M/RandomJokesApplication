@@ -4,15 +4,15 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import acn.gasendo.randomjokesapplication.datasource.api.JokesApi
-import acn.gasendo.randomjokesapplication.datasource.remotemodel.PostDto
+import acn.gasendo.randomjokesapplication.datasource.remotemodel.JokeDto
 
 class JokesApiImpl(private val client: HttpClient) : JokesApi {
 
-    override suspend fun getPosts(): List<PostDto> {
+    override suspend fun getJokes(): List<JokeDto> {
         return client.get { url(JokesApi.POSTS_URL) }
     }
 
-    override suspend fun postPost(post: PostDto): PostDto? {
+    override suspend fun postJoke(post: JokeDto): JokeDto? {
         return client.post {
             url(JokesApi.POSTS_URL)
             contentType(ContentType.Application.Json)

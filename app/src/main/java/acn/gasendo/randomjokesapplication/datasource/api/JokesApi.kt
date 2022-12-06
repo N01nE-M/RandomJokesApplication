@@ -1,6 +1,6 @@
 package acn.gasendo.randomjokesapplication.datasource.api
 
-import acn.gasendo.randomjokesapplication.datasource.remotemodel.PostDto
+import acn.gasendo.randomjokesapplication.datasource.remotemodel.JokeDto
 
 interface JokesApi {
 
@@ -9,7 +9,7 @@ interface JokesApi {
         const val POSTS_URL = "$BASE_URL/random_ten"
     }
 
-    suspend fun getPosts(): List<PostDto>
+    suspend fun getJokes(): List<JokeDto>
 
-    suspend fun postPost(post: PostDto): PostDto?
+    suspend fun postJoke(post: JokeDto): JokeDto?
 }

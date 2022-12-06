@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import acn.gasendo.randomjokesapplication.common.Resource
 import acn.gasendo.randomjokesapplication.domain.repository.JokesRepository
 import acn.gasendo.randomjokesapplication.presentation.JokesState
+
+import kotlinx.coroutines.flow.*
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,8 +19,8 @@ class HomeViewModel @Inject constructor(repository: JokesRepository) : ViewModel
     private val _state = mutableStateOf(JokesState())
     val state: State<JokesState> = _state
 
-    init {
-        repository.getPosts().onEach { result ->
+   init{
+        repository.getJokes().onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.value = JokesState(posts = result.data!!, loading = false, error = null)
@@ -35,4 +36,6 @@ class HomeViewModel @Inject constructor(repository: JokesRepository) : ViewModel
             }
         }.launchIn(viewModelScope)
     }
+
+
 }

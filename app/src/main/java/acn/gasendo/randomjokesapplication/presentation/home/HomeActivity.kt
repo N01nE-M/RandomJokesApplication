@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,11 +18,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+
 
 
 @AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class HomeActivity : ComponentActivity() {
                         content = {
                             Column(
                                 modifier = Modifier
-                                    .background(MaterialTheme.colors.background),
+                                    .background(MaterialTheme.colors.secondary),
                                 verticalArrangement = Arrangement.Bottom,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
@@ -55,12 +55,33 @@ class HomeActivity : ComponentActivity() {
                                                 modifier = Modifier
                                                     .padding(horizontal = 7.dp, vertical = 3.dp)
                                                     .fillMaxWidth(),
-                                                backgroundColor = Color.White
+                                                backgroundColor = MaterialTheme.colors.primary
                                             ) {
-                                                Text(
-                                                    text = it.setup + "\n\n" + it.punchline + "\n\n" + "Subject: " + it.type,
-                                                    modifier = Modifier.padding(10.dp)
-                                                )
+                                                Column(
+                                                    horizontalAlignment = Alignment.Start
+                                                ) {
+                                                    Text(
+                                                        text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
+                                                        modifier = Modifier.padding(10.dp),
+                                                        color = MaterialTheme.colors.secondary
+                                                        )
+                                                    Row(
+                                                        modifier = Modifier.align(Alignment.End)
+                                                    ){
+                                                        Button(
+                                                            modifier = Modifier
+                                                                .padding(10.dp),
+                                                            colors = ButtonDefaults.buttonColors(
+                                                                backgroundColor = MaterialTheme.colors.secondary,
+                                                                contentColor = MaterialTheme.colors.primary
+                                                            ),
+                                                            onClick = { /*TODO*/ })
+                                                        {
+                                                            Text(text = "Add to favorites")
+                                                        }
+                                                    }
+
+                                                }
                                             }
                                         }
                                     }
@@ -74,7 +95,7 @@ class HomeActivity : ComponentActivity() {
                                 }
                             }
 
-                        },
+                        }
                     )
                 }
             }
@@ -82,14 +103,15 @@ class HomeActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun AppBar() {
 
-    TopAppBar(
-        title = {
+    TopAppBar{
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colors.primary),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
 
@@ -99,22 +121,13 @@ fun AppBar() {
                         .padding(5.dp)
                         .border(
                             2.dp,
-                            color = MaterialTheme.colors.primary,
-                            shape = RoundedCornerShape(5.dp)
+                            color = MaterialTheme.colors.secondary,
+                            shape = RoundedCornerShape(2.dp)
                         ),
-                    onClick = { /*TODO*/ })
-                {
-
-                    Text(text = "Reload")
-                }
-                Button(
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .border(
-                            2.dp,
-                            color = MaterialTheme.colors.primary,
-                            shape = RoundedCornerShape(5.dp)
-                        ),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.secondary,
+                        contentColor = MaterialTheme.colors.primary
+                    ),
                     onClick = { /*TODO*/ })
                 {
                     Text(text = "Favorites")
@@ -124,16 +137,24 @@ fun AppBar() {
                         .padding(5.dp)
                         .border(
                             2.dp,
-                            color = MaterialTheme.colors.primary,
-                            shape = RoundedCornerShape(5.dp)
+                            color = MaterialTheme.colors.secondary,
+                            shape = RoundedCornerShape(2.dp)
                         ),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.secondary,
+                        contentColor = MaterialTheme.colors.primary
+                    ),
                     onClick = { ThemeState.isLight = !ThemeState.isLight })
                 {
-                    Text(text = "Theme")
+                    if (ThemeState.isLight) {
+                        Text(text = "Dark")
+                    } else {
+                        Text(text = "Light")
+
+                    }
                 }
             }
 
         }
 
-    )
 }

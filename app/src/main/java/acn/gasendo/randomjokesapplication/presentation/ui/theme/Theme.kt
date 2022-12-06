@@ -11,14 +11,13 @@ import androidx.compose.ui.graphics.Color
 
 private val DarkThemeColors = darkColors(
     primary = Color.White,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Color.Black
+
 )
 
 private val LightThemeColors = lightColors(
     primary = Color.Black,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Color.White
 )
 
 

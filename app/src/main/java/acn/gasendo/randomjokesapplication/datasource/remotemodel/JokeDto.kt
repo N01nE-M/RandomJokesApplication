@@ -4,14 +4,14 @@ import kotlinx.serialization.Serializable
 import acn.gasendo.randomjokesapplication.domain.model.JokeModel
 
 @Serializable
-data class PostDto(
+data class JokeDto(
     val setup: String,
     val punchline: String,
     val id: Int,
     val type: String
 )
 
-fun PostDto.toPost(): JokeModel {
+fun JokeDto.toPost(): JokeModel {
     return JokeModel(
         setup = setup,
         punchline = punchline,
