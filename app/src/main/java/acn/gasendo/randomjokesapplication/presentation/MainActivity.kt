@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 navController = rememberNavController()
                 SetupNavGraph(navController = navController)
             }
-            
+
         }
     }
 }
@@ -47,74 +47,72 @@ fun MainScreen(navController: NavController) {
 
     val viewmodel = hiltViewModel<MainViewModel>()
     val state = viewmodel.state.value
+    val scaffoldState = rememberScaffoldState()
 
-
-    
-        val scaffoldState = rememberScaffoldState()
-        Surface {
-            Scaffold(
-                topBar = {
-                    AppBar(navController = navController)
-                },
-                scaffoldState = scaffoldState,
-                content = {
-                    Column(
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.secondary),
-                        verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        if (state.posts != null) { // success
-                            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                items(state.posts) {
-                                    Card(
-                                        modifier = Modifier
-                                            .padding(horizontal = 7.dp, vertical = 3.dp)
-                                            .fillMaxWidth(),
-                                        backgroundColor = MaterialTheme.colors.primary
+    Surface {
+        Scaffold(
+            topBar = {
+                AppBar(navController = navController)
+            },
+            scaffoldState = scaffoldState,
+            content = {
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.secondary),
+                    verticalArrangement = Arrangement.Bottom,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (state.posts != null) { // success
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            items(state.posts) {
+                                Card(
+                                    modifier = Modifier
+                                        .padding(horizontal = 7.dp, vertical = 3.dp)
+                                        .fillMaxWidth(),
+                                    backgroundColor = MaterialTheme.colors.primary
+                                ) {
+                                    Column(
+                                        horizontalAlignment = Alignment.Start
                                     ) {
-                                        Column(
-                                            horizontalAlignment = Alignment.Start
+                                        Text(
+                                            text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
+                                            modifier = Modifier.padding(10.dp),
+                                            color = MaterialTheme.colors.secondary
+                                        )
+                                        Row(
+                                            modifier = Modifier.align(Alignment.End)
                                         ) {
-                                            Text(
-                                                text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
-                                                modifier = Modifier.padding(10.dp),
-                                                color = MaterialTheme.colors.secondary
-                                            )
-                                            Row(
-                                                modifier = Modifier.align(Alignment.End)
-                                            ) {
-                                                Button(
-                                                    modifier = Modifier
-                                                        .padding(10.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        backgroundColor = MaterialTheme.colors.secondary,
-                                                        contentColor = MaterialTheme.colors.primary
-                                                    ),
-                                                    onClick = {  })
-                                                {
-                                                    Text(text = "Add to favorites")
-                                                }
+                                            Button(
+                                                modifier = Modifier
+                                                    .padding(10.dp),
+                                                colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = MaterialTheme.colors.secondary,
+                                                    contentColor = MaterialTheme.colors.primary
+                                                ),
+                                                onClick = { })
+                                            {
+                                                Text(text = "Favorite")
                                             }
-
                                         }
+
                                     }
                                 }
                             }
+                        }
 
+                    } else {
+                        if (state.loading) {
+                            CircularProgressIndicator()
                         } else {
-                            if (state.loading) {
-                                CircularProgressIndicator()
-                            } else {
-                                state.error?.let { Text(text = it) }
-                            }
+                            state.error?.let { Text(text = it) }
                         }
                     }
-
                 }
-            )
-        }
+
+            }
+        )
     }
+}
 
 
 @Composable
@@ -124,72 +122,71 @@ fun FavoritesScreen(navController: NavController) {
     val state = viewmodel.state.value
 
 
-    
-        val scaffoldState = rememberScaffoldState()
-        Surface {
-            Scaffold(
-                topBar = {
-                    FavoritesAppBar(navController = navController)
-                },
-                scaffoldState = scaffoldState,
-                content = {
-                    Column(
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.secondary),
-                        verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        if (state.posts != null) { // success
-                            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                items(state.posts) {
-                                    Card(
-                                        modifier = Modifier
-                                            .padding(horizontal = 7.dp, vertical = 3.dp)
-                                            .fillMaxWidth(),
-                                        backgroundColor = MaterialTheme.colors.primary
+    val scaffoldState = rememberScaffoldState()
+    Surface {
+        Scaffold(
+            topBar = {
+                FavoritesAppBar(navController = navController)
+            },
+            scaffoldState = scaffoldState,
+            content = {
+                Column(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.secondary),
+                    verticalArrangement = Arrangement.Bottom,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (state.posts != null) { // success
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            items(state.posts) {
+                                Card(
+                                    modifier = Modifier
+                                        .padding(horizontal = 7.dp, vertical = 3.dp)
+                                        .fillMaxWidth(),
+                                    backgroundColor = MaterialTheme.colors.primary
+                                ) {
+                                    Column(
+                                        horizontalAlignment = Alignment.Start
                                     ) {
-                                        Column(
-                                            horizontalAlignment = Alignment.Start
+                                        Text(
+                                            text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
+                                            modifier = Modifier.padding(10.dp),
+                                            color = MaterialTheme.colors.secondary
+                                        )
+                                        Row(
+                                            modifier = Modifier.align(Alignment.End)
                                         ) {
-                                            Text(
-                                                text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
-                                                modifier = Modifier.padding(10.dp),
-                                                color = MaterialTheme.colors.secondary
-                                            )
-                                            Row(
-                                                modifier = Modifier.align(Alignment.End)
-                                            ) {
-                                                Button(
-                                                    modifier = Modifier
-                                                        .padding(10.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        backgroundColor = MaterialTheme.colors.secondary,
-                                                        contentColor = MaterialTheme.colors.primary
-                                                    ),
-                                                    onClick = { /*TODO*/ })
-                                                {
-                                                    Text(text = "Add to favorites")
-                                                }
+                                            Button(
+                                                modifier = Modifier
+                                                    .padding(10.dp),
+                                                colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = MaterialTheme.colors.secondary,
+                                                    contentColor = MaterialTheme.colors.primary
+                                                ),
+                                                onClick = { /*TODO*/ })
+                                            {
+                                                Text(text = "Remove")
                                             }
-
                                         }
+
                                     }
                                 }
                             }
+                        }
 
+                    } else {
+                        if (state.loading) {
+                            CircularProgressIndicator()
                         } else {
-                            if (state.loading) {
-                                CircularProgressIndicator()
-                            } else {
-                                state.error?.let { Text(text = it) }
-                            }
+                            state.error?.let { Text(text = it) }
                         }
                     }
-
                 }
-            )
-        }
+
+            }
+        )
     }
+}
 
 
 @Composable
@@ -271,11 +268,12 @@ fun FavoritesAppBar(navController: NavController) {
                     backgroundColor = MaterialTheme.colors.secondary,
                     contentColor = MaterialTheme.colors.primary
                 ),
-                onClick = { navController.navigate(route = Screen.Main.route){
-                    popUpTo(Screen.Main.route){
-                        inclusive = true
+                onClick = {
+                    navController.navigate(route = Screen.Main.route) {
+                        popUpTo(Screen.Main.route) {
+                            inclusive = true
+                        }
                     }
-                }
                 })
             {
                 Text(text = "Home")
