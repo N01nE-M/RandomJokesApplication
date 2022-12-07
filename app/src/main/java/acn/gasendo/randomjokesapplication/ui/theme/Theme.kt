@@ -1,4 +1,4 @@
-package acn.gasendo.randomjokesapplication.presentation.ui.theme
+package acn.gasendo.randomjokesapplication.ui.theme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors

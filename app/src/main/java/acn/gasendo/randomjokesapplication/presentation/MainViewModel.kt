@@ -1,4 +1,4 @@
-package acn.gasendo.randomjokesapplication.presentation.home
+package acn.gasendo.randomjokesapplication.presentation
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(repository: JokesRepository) : ViewModel() {
+class MainViewModel @Inject constructor(repository: JokesRepository) : ViewModel() {
 
     private val _state = mutableStateOf(JokesState())
     val state: State<JokesState> = _state
