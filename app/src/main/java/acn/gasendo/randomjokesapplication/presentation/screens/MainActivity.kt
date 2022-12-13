@@ -2,6 +2,8 @@ package acn.gasendo.randomjokesapplication.presentation.screens
 
 import acn.gasendo.randomjokesapplication.navigation.Screen
 import acn.gasendo.randomjokesapplication.navigation.SetupNavGraph
+import acn.gasendo.randomjokesapplication.presentation.components.BooksContent
+import acn.gasendo.randomjokesapplication.presentation.viewmodels.FavJokesViewModel
 import acn.gasendo.randomjokesapplication.presentation.viewmodels.MainViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,6 +23,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -116,77 +120,31 @@ fun MainScreen(navController: NavController) {
 }
 
 
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FavoritesScreen(navController: NavController) {
 
-    val viewmodel = hiltViewModel<MainViewModel>()
-    val state = viewmodel.state.value
+    val viewModel = hiltViewModel<FavJokesViewModel>()
 
+    val books by viewModel.books.collectAsState(
+        initial = emptyList())
 
     val scaffoldState = rememberScaffoldState()
-    Surface {
-        Scaffold(
-            topBar = {
-                FavoritesAppBar(navController = navController)
-            },
-            scaffoldState = scaffoldState,
-            content = {
-                Column(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.secondary),
-                    verticalArrangement = Arrangement.Bottom,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (state.posts != null) { // success
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(state.posts) {
-                                Card(
-                                    modifier = Modifier
-                                        .padding(horizontal = 7.dp, vertical = 3.dp)
-                                        .fillMaxWidth(),
-                                    backgroundColor = MaterialTheme.colors.primary
-                                ) {
-                                    Column(
-                                        horizontalAlignment = Alignment.Start
-                                    ) {
-                                        Text(
-                                            text = "Subject: " + it.type.replaceFirstChar { it.uppercase() } + "\n\n\n" + it.setup + "\n\n" + it.punchline + "\n\n",
-                                            modifier = Modifier.padding(10.dp),
-                                            color = MaterialTheme.colors.secondary
-                                        )
-                                        Row(
-                                            modifier = Modifier.align(Alignment.End)
-                                        ) {
-                                            Button(
-                                                modifier = Modifier
-                                                    .padding(10.dp),
-                                                colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = MaterialTheme.colors.secondary,
-                                                    contentColor = MaterialTheme.colors.primary
-                                                ),
-                                                onClick = { /*TODO*/ })
-                                            {
-                                                Text(text = "Remove")
-                                            }
-                                        }
 
-                                    }
-                                }
-                            }
-                        }
-
-                    } else {
-                        if (state.loading) {
-                            CircularProgressIndicator()
-                        } else {
-                            state.error?.let { Text(text = it) }
-                        }
-                    }
-                }
-
+    Scaffold(scaffoldState = scaffoldState,
+        topBar = {
+            FavoritesAppBar(navController = navController)
+        },
+        content = { padding ->
+            BooksContent(
+                padding = padding,
+                books = books
+            ) { book ->
+                viewModel.deleteBook(book)
             }
-        )
-    }
+        }
+    )
 }
 
 
@@ -270,8 +228,8 @@ fun FavoritesAppBar(navController: NavController) {
                     contentColor = MaterialTheme.colors.primary
                 ),
                 onClick = {
-                    navController.navigate(route = Screen.Main.route) {
-                        popUpTo(Screen.Main.route) {
+                    navController.navigate(route = Screen.Main.route){
+                        popUpTo(route = Screen.Main.route){
                             inclusive = true
                         }
                     }
@@ -301,7 +259,5 @@ fun FavoritesAppBar(navController: NavController) {
                 }
             }
         }
-
     }
-
 }

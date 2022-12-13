@@ -8,10 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import acn.gasendo.randomjokesapplication.common.Resource
 import acn.gasendo.randomjokesapplication.domain.repository.JokesRepository
 import acn.gasendo.randomjokesapplication.presentation.states.JokesState
-import kotlinx.coroutines.delay
-
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+
 
 import javax.inject.Inject
 
@@ -20,20 +18,7 @@ class MainViewModel @Inject constructor(repository: JokesRepository) : ViewModel
 
     private val _state = mutableStateOf(JokesState())
     val state: State<JokesState> = _state
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
 
-    init{
-        loadStuff()
-    }
-
-    fun loadStuff() {
-        viewModelScope.launch {
-            _isLoading.value = true
-            delay(300L)
-            _isLoading.value = false
-        }
-    }
 
    init{
         repository.getJokes().onEach { result ->
