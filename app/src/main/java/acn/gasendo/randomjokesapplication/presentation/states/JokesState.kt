@@ -1,4 +1,4 @@
-package acn.gasendo.randomjokesapplication.presentation
+package acn.gasendo.randomjokesapplication.presentation.states
 
 import acn.gasendo.randomjokesapplication.domain.model.JokeModel
 

@@ -1,4 +1,4 @@
-package acn.gasendo.randomjokesapplication.presentation
+package acn.gasendo.randomjokesapplication.presentation.viewmodels
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import acn.gasendo.randomjokesapplication.common.Resource
 import acn.gasendo.randomjokesapplication.domain.repository.JokesRepository
-import acn.gasendo.randomjokesapplication.presentation.JokesState
+import acn.gasendo.randomjokesapplication.presentation.states.JokesState
 import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.flow.*

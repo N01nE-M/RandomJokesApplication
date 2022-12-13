@@ -1,7 +1,8 @@
-package acn.gasendo.randomjokesapplication.presentation
+package acn.gasendo.randomjokesapplication.presentation.screens
 
 import acn.gasendo.randomjokesapplication.navigation.Screen
 import acn.gasendo.randomjokesapplication.navigation.SetupNavGraph
+import acn.gasendo.randomjokesapplication.presentation.viewmodels.MainViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -215,7 +216,7 @@ fun AppBar(navController: NavController) {
                 ),
                 onClick = { navController.navigate(route = Screen.Favorites.route) })
             {
-                Text(text = "Favorites")
+                Text(text = "Go to Favorites")
             }
             Button(
                 modifier = Modifier
@@ -276,7 +277,7 @@ fun FavoritesAppBar(navController: NavController) {
                     }
                 })
             {
-                Text(text = "Home")
+                Text(text = "Go to Home")
             }
             Button(
                 modifier = Modifier
